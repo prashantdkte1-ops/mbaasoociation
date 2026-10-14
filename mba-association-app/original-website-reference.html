@@ -1,0 +1,1595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- =========================
+     HEAD / CDN IMPORTS
+========================= -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MBA Professional Clubs Association — Learn. Participate. Lead. Grow.</title>
+<meta name="description" content="The digital home of the MBA Professional Clubs Association — NEXUS (HR), VERTEX (Finance) and PULSE (Marketing).">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+<!-- =========================
+     TAILWIND CONFIG
+========================= -->
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          navy: {
+            950: '#0A0E1A',
+            900: '#0E1526',
+            800: '#141D33',
+            700: '#1C2843',
+          },
+          ink: '#12151C',
+          paper: '#FAF8F3',
+          off: '#F3F0E8',
+          gold: {
+            DEFAULT: '#B68A35',
+            light: '#D8B76B',
+            dim: '#8C6C2C',
+          },
+          nexus: { DEFAULT: '#3E6FA0', dim: '#274A6E' },
+          vertex: { DEFAULT: '#2E7D5B', dim: '#1F5941' },
+          pulse: { DEFAULT: '#C1573A', dim: '#8E3E29' },
+        },
+        fontFamily: {
+          display: ['"Plus Jakarta Sans"', 'sans-serif'],
+          body: ['"Inter"', 'sans-serif'],
+        },
+      }
+    }
+  }
+</script>
+
+<!-- =========================
+     CUSTOM CSS
+========================= -->
+<style>
+  :root {
+    --navy-950: #0A0E1A;
+    --navy-900: #0E1526;
+    --gold: #B68A35;
+  }
+
+  * { scroll-behavior: smooth; }
+
+  html { scroll-padding-top: 84px; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #FAF8F3;
+    color: #12151C;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+  ::selection { background: #B68A35; color: #FAF8F3; }
+
+  /* subtle grid backdrop */
+  .grid-field {
+    background-image:
+      linear-gradient(rgba(182,138,53,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(182,138,53,0.08) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  .grid-field-dark {
+    background-image:
+      linear-gradient(rgba(216,183,107,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(216,183,107,0.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  /* scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.7s cubic-bezier(.2,.7,.3,1), transform 0.7s cubic-bezier(.2,.7,.3,1);
+  }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+  .reveal-scale { opacity: 0; transform: scale(0.96); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal-scale.is-visible { opacity: 1; transform: scale(1); }
+
+  .stagger > * { transition-delay: calc(var(--i, 0) * 90ms); }
+
+  /* navbar */
+  #navbar { transition: box-shadow 0.35s ease, background-color 0.35s ease, padding 0.35s ease; }
+  #navbar.elevated {
+    box-shadow: 0 8px 30px -12px rgba(10,14,26,0.35);
+    background-color: rgba(10,14,26,0.94);
+    backdrop-filter: blur(10px);
+  }
+
+  .nav-link { position: relative; }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: -6px;
+    width: 0%; height: 1.5px;
+    background: #D8B76B;
+    transition: width 0.3s ease;
+  }
+  .nav-link.active::after, .nav-link:hover::after { width: 100%; }
+
+  /* hero rail */
+  .hero-word { position: relative; padding-left: 2.25rem; }
+  .hero-word::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0.42em;
+    width: 12px; height: 12px;
+    border-radius: 999px;
+    background: #0A0E1A;
+    border: 2px solid #B68A35;
+  }
+  .hero-rail {
+    position: absolute;
+    left: 5px; top: 0.55em; bottom: 0.7em;
+    width: 2px;
+    background: linear-gradient(to bottom, #B68A35, rgba(182,138,53,0.05));
+  }
+
+  /* card lift */
+  .lift { transition: transform 0.35s cubic-bezier(.2,.7,.3,1), box-shadow 0.35s ease, border-color 0.35s ease; }
+  .lift:hover { transform: translateY(-6px); }
+
+  /* club card accent bar */
+  .accent-bar { height: 3px; width: 100%; }
+
+  /* modal */
+  .modal-backdrop { backdrop-filter: blur(4px); }
+  .modal-panel {
+    transform: translateY(24px) scale(0.98);
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(.2,.8,.3,1), opacity 0.35s ease;
+  }
+  .modal-panel.open { transform: translateY(0) scale(1); opacity: 1; }
+
+  /* timeline */
+  .timeline-line {
+    background: linear-gradient(90deg, #B68A35 var(--progress, 0%), rgba(182,138,53,0.15) var(--progress, 0%));
+    transition: background 0.6s ease;
+  }
+  .timeline-dot {
+    transition: background-color 0.4s ease, border-color 0.4s ease, transform 0.4s ease;
+  }
+  .timeline-step.active .timeline-dot {
+    background-color: #B68A35;
+    border-color: #B68A35;
+    transform: scale(1.15);
+  }
+  .timeline-step.active .timeline-label { color: #12151C; }
+
+  /* org chart connectors */
+  .org-line { background: rgba(182,138,53,0.45); }
+
+  /* filter pill */
+  .filter-pill { transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease; }
+
+  /* rule accordion */
+  .rule-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+  .rule-item.open .rule-content { max-height: 200px; }
+  .rule-item.open .rule-chevron { transform: rotate(180deg); }
+  .rule-chevron { transition: transform 0.3s ease; }
+
+  /* counter */
+  .glow-line {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(216,183,107,0.5), transparent);
+    animation: drift 9s linear infinite;
+  }
+  @keyframes drift {
+    0% { transform: translateX(-30%); opacity: 0; }
+    15% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { transform: translateX(30%); opacity: 0; }
+  }
+
+  .badge-demo {
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    padding: 2px 8px;
+  }
+
+  /* mobile menu */
+  #mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(.2,.8,.3,1); }
+  #mobile-menu.open { max-height: 520px; }
+
+  #back-to-top { transition: opacity 0.3s ease, transform 0.3s ease; }
+
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid #B68A35;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+    .reveal, .reveal-scale { opacity: 1 !important; transform: none !important; }
+  }
+
+/* ===== PROFESSIONAL UI UPGRADE ===== */
+:root{
+  --shadow-soft: 0 18px 50px rgba(10,14,26,.08);
+  --shadow-hover: 0 24px 70px rgba(10,14,26,.14);
+}
+::selection{background:#B68A35;color:#fff}
+body{letter-spacing:-.005em}
+section{scroll-margin-top:90px}
+img{display:block}
+.image-cover{width:100%;height:100%;object-fit:cover}
+.hero-photo{
+  position:absolute;inset:0;opacity:.22;background-size:cover;background-position:center;
+  mix-blend-mode:screen;filter:saturate(.65) contrast(1.08);
+}
+.hero-vignette{position:absolute;inset:0;background:linear-gradient(90deg,#0A0E1A 0%,rgba(10,14,26,.88) 52%,rgba(10,14,26,.38) 100%)}
+.section-kicker{display:inline-flex;align-items:center;gap:8px}
+.section-kicker:before{content:'';width:24px;height:1px;background:#B68A35}
+.club-card,.event-card{box-shadow:0 1px 0 rgba(10,14,26,.04)}
+.club-card:hover,.event-card:hover{box-shadow:var(--shadow-hover)}
+.club-card .club-image{height:185px;overflow:hidden;position:relative}
+.club-card .club-image img{transition:transform .6s cubic-bezier(.2,.7,.3,1)}
+.club-card:hover .club-image img{transform:scale(1.06)}
+.club-image:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(10,14,26,.42))}
+.event-image{height:205px;overflow:hidden;position:relative}
+.event-image img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.event-card:hover .event-image img{transform:scale(1.045)}
+.event-image:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,14,26,0) 50%,rgba(10,14,26,.48))}
+.avatar-ring{box-shadow:0 0 0 4px rgba(182,138,53,.08)}
+.stat-card{background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.015))}
+.rule-item:hover{background:rgba(182,138,53,.035)}
+.modal-panel{box-shadow:0 30px 100px rgba(0,0,0,.28)}
+.event-gallery img{width:100%;height:78px;object-fit:cover;border-radius:4px}
+@media(max-width:640px){
+ .club-card .club-image{height:165px}
+ .event-image{height:185px}
+}
+
+</style>
+
+<style id="dkte-exact-palette">
+:root{
+ --dkte-primary:#123B6D;
+ --dkte-dark:#0B1F33;
+ --dkte-secondary:#1D5C91;
+ --dkte-gold:#C9A227;
+ --dkte-bg:#F7F8FA;
+ --dkte-card:#FFFFFF;
+ --dkte-text:#526273;
+ --dkte-main:#17212B;
+}
+body{background:#F7F8FA!important;color:#526273!important}
+.bg-paper,.bg-off{background-color:#F7F8FA!important}
+.bg-white{background-color:#FFFFFF!important}
+.text-ink{color:#17212B!important}.text-ink\/65,.text-ink\/60,.text-ink\/55,.text-ink\/50,.text-ink\/40{color:#526273!important}
+.bg-navy-950{background-color:#0B1F33!important}.bg-navy-900{background-color:#123B6D!important}
+.bg-navy-800,.bg-navy-700{background-color:#1D5C91!important}
+.text-gold,.text-gold-light,.text-gold-dim{color:#C9A227!important}
+.bg-gold{background-color:#C9A227!important}
+.border-gold,.border-gold\/30,.border-gold\/50{border-color:#C9A227!important}
+.border-navy-800,.border-navy-700{border-color:rgba(18,59,109,.25)!important}
+.text-nexus{color:#123B6D!important}.bg-nexus{background-color:#123B6D!important}.border-nexus{border-color:#123B6D!important}
+.text-vertex{color:#1D5C91!important}.bg-vertex{background-color:#1D5C91!important}.border-vertex{border-color:#1D5C91!important}
+.text-pulse{color:#C9A227!important}.bg-pulse{background-color:#C9A227!important}.border-pulse{border-color:#C9A227!important}
+.grid-field{background-image:linear-gradient(rgba(18,59,109,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(18,59,109,.07) 1px,transparent 1px)!important}
+.grid-field-dark{background-image:linear-gradient(rgba(201,162,39,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(201,162,39,.06) 1px,transparent 1px)!important}
+#navbar{background:#0B1F33!important}.hero-vignette{background:linear-gradient(90deg,#0B1F33 0%,rgba(11,31,51,.92) 55%,rgba(11,31,51,.45) 100%)!important}
+.nav-link::after{background:#C9A227!important}.hero-rail{background:linear-gradient(to bottom,#C9A227,rgba(201,162,39,.05))!important}.hero-word::before{background:#0B1F33!important;border-color:#C9A227!important}
+.timeline-line{background:linear-gradient(90deg,#C9A227 var(--progress,0%),rgba(201,162,39,.15) var(--progress,0%))!important}
+.org-line{background:rgba(201,162,39,.45)!important}
+.modal-backdrop{background:rgba(11,31,51,.80)!important}
+</style>
+
+<style id="office-bearer-profile-ui">
+.profile-card-btn{width:100%;text-align:left;cursor:pointer;position:relative;overflow:hidden}
+.profile-card-btn .profile-photo{width:76px;height:76px;border-radius:50%;object-fit:cover;border:3px solid #C9A227;flex:none}
+.profile-card-btn:hover{border-color:#C9A227!important;transform:translateY(-5px)}
+.profile-modal-photo{width:150px;height:150px;border-radius:18px;object-fit:cover;border:4px solid #C9A227}
+.profile-info-row{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-bottom:1px solid rgba(18,59,109,.10)}
+.profile-info-row:last-child{border-bottom:0}
+.profile-chip{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;background:rgba(18,59,109,.08);color:#123B6D;font-size:12px;font-weight:700}
+.profile-contact{display:inline-flex;align-items:center;gap:8px;padding:10px 13px;border-radius:8px;background:#F7F8FA;color:#123B6D;font-size:13px;font-weight:700;border:1px solid rgba(18,59,109,.12)}
+.profile-contact:hover{background:#123B6D;color:white}
+@media(max-width:640px){.profile-modal-photo{width:110px;height:110px}}
+</style>
+</head>
+
+<body class="bg-paper text-ink font-body antialiased">
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+<header id="navbar" class="fixed top-0 inset-x-0 z-50 bg-navy-950/90">
+  <nav class="max-w-7xl mx-auto px-5 sm:px-8 h-16 md:h-[72px] flex items-center justify-between" aria-label="Primary">
+    <a href="#home" class="flex items-center gap-2.5 group" aria-label="MBA Professional Clubs Association home">
+      <span class="w-8 h-8 rounded-sm border border-gold/50 flex items-center justify-center text-gold font-display font-bold text-sm">M</span>
+      <span class="font-display font-semibold text-off text-[13px] sm:text-sm tracking-wide leading-tight">
+        MBA PROFESSIONAL<br class="hidden sm:block"> CLUBS ASSOCIATION
+      </span>
+    </a>
+
+    <ul class="hidden lg:flex items-center gap-8 text-sm text-off/80">
+      <li><a href="#home" class="nav-link active py-2" data-section="home">Home</a></li>
+      <li><a href="#association" class="nav-link py-2" data-section="association">Association</a></li>
+      <li><a href="#clubs" class="nav-link py-2" data-section="clubs">Clubs</a></li>
+      <li><a href="#leadership" class="nav-link py-2" data-section="leadership">Leadership</a></li>
+      <li><a href="#activities" class="nav-link py-2" data-section="activities">Activities</a></li>
+      <li><a href="#membership" class="nav-link py-2" data-section="membership">Membership</a></li>
+      <li><a href="#rules" class="nav-link py-2" data-section="rules">Rules</a></li>
+      <li><a href="#contact" class="nav-link py-2" data-section="contact">Contact</a></li>
+    </ul>
+
+    <button id="menu-btn" class="lg:hidden text-off p-2 -mr-2" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle navigation menu">
+      <i data-lucide="menu" class="w-6 h-6" id="menu-icon-open"></i>
+      <i data-lucide="x" class="w-6 h-6 hidden" id="menu-icon-close"></i>
+    </button>
+  </nav>
+
+  <div id="mobile-menu" class="lg:hidden border-t border-white/10">
+    <ul class="px-5 py-4 space-y-1 text-off/85 text-sm bg-navy-950">
+      <li><a href="#home" class="mobile-link block py-2.5">Home</a></li>
+      <li><a href="#association" class="mobile-link block py-2.5">Association</a></li>
+      <li><a href="#clubs" class="mobile-link block py-2.5">Clubs</a></li>
+      <li><a href="#leadership" class="mobile-link block py-2.5">Leadership</a></li>
+      <li><a href="#activities" class="mobile-link block py-2.5">Activities</a></li>
+      <li><a href="#membership" class="mobile-link block py-2.5">Membership</a></li>
+      <li><a href="#rules" class="mobile-link block py-2.5">Rules</a></li>
+      <li><a href="#contact" class="mobile-link block py-2.5">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="home">
+
+<!-- =========================
+     HERO
+========================= -->
+<section class="relative bg-navy-950 text-off pt-32 pb-24 md:pt-44 md:pb-32 overflow-hidden">
+  <div class="hero-photo" style="background-image:url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1800&q=85');"></div>
+  <div class="hero-vignette pointer-events-none"></div>
+   <div class="absolute inset-0 grid-field-dark pointer-events-none"></div>
+  <div class="glow-line" style="top:22%; width:40%; left:0;"></div>
+  <div class="glow-line" style="top:68%; width:30%; left:10%; animation-delay:3s;"></div>
+  <div class="absolute -right-24 top-10 w-96 h-96 rounded-full border border-gold/10"></div>
+  <div class="absolute -right-10 top-32 w-64 h-64 rounded-full border border-gold/10"></div>
+
+  <div class="relative max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-12 gap-12 items-center">
+    <div class="lg:col-span-7">
+      <p class="text-gold-light/90 text-xs tracking-[0.18em] uppercase mb-6 reveal" id="hero-eyebrow">MBA Professional Clubs Association</p>
+
+      <h1 class="font-display font-extrabold text-[2.6rem] leading-[1.05] sm:text-6xl sm:leading-[1.05] mb-8">
+        <span class="relative block">
+          <span class="hero-rail" aria-hidden="true"></span>
+          <span class="hero-word block reveal" style="transition-delay:0.05s">Learn.</span>
+          <span class="hero-word block reveal" style="transition-delay:0.2s">Participate.</span>
+          <span class="hero-word block reveal" style="transition-delay:0.35s">Lead.</span>
+          <span class="hero-word block reveal text-gold-light" style="transition-delay:0.5s">Grow.</span>
+        </span>
+      </h1>
+
+      <p class="reveal text-off/75 text-base sm:text-lg leading-relaxed max-w-xl mb-10" style="transition-delay:0.6s">
+        A student-driven professional ecosystem designed to transform classroom knowledge into practical experience, leadership and professional growth — connecting three specialised clubs under one shared organisation.
+      </p>
+
+      <div class="reveal flex flex-wrap gap-4" style="transition-delay:0.7s">
+        <a href="#association" class="px-6 py-3.5 bg-gold text-navy-950 font-semibold rounded-sm hover:bg-gold-light transition-colors text-sm">Explore Association</a>
+        <a href="#clubs" class="px-6 py-3.5 border border-off/25 text-off font-semibold rounded-sm hover:border-gold hover:text-gold-light transition-colors text-sm">Meet Our Clubs</a>
+      </div>
+    </div>
+
+    <div class="lg:col-span-5 reveal-scale" style="transition-delay:0.4s">
+      <div class="relative border border-white/10 rounded-md p-6 bg-navy-900/60 backdrop-blur-sm">
+        <p class="text-[11px] tracking-[0.14em] uppercase text-off/50 mb-5">Three clubs, one association</p>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between border-l-2 border-nexus pl-4 py-3 bg-white/[0.03] rounded-r-sm">
+            <div>
+              <p class="font-display font-semibold text-off text-sm">NEXUS</p>
+              <p class="text-off/50 text-xs">HR Club</p>
+            </div>
+            <i data-lucide="users" class="w-4 h-4 text-nexus"></i>
+          </div>
+          <div class="flex items-center justify-between border-l-2 border-vertex pl-4 py-3 bg-white/[0.03] rounded-r-sm">
+            <div>
+              <p class="font-display font-semibold text-off text-sm">VERTEX</p>
+              <p class="text-off/50 text-xs">Finance Club</p>
+            </div>
+            <i data-lucide="line-chart" class="w-4 h-4 text-vertex"></i>
+          </div>
+          <div class="flex items-center justify-between border-l-2 border-pulse pl-4 py-3 bg-white/[0.03] rounded-r-sm">
+            <div>
+              <p class="font-display font-semibold text-off text-sm">PULSE</p>
+              <p class="text-off/50 text-xs">Marketing Club</p>
+            </div>
+            <i data-lucide="megaphone" class="w-4 h-4 text-pulse"></i>
+          </div>
+        </div>
+        <div class="mt-6 pt-5 border-t border-white/10 grid grid-cols-3 text-center gap-2">
+          <div>
+            <p class="font-display font-bold text-xl text-gold-light" data-counter="15">0</p>
+            <p class="text-off/45 text-[11px] mt-0.5">Office Bearers</p>
+          </div>
+          <div>
+            <p class="font-display font-bold text-xl text-gold-light" data-counter="3">0</p>
+            <p class="text-off/45 text-[11px] mt-0.5">Clubs</p>
+          </div>
+          <div>
+            <p class="font-display font-bold text-xl text-gold-light" data-counter="1">0</p>
+            <p class="text-off/45 text-[11px] mt-0.5">Association</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================
+     ASSOCIATION
+========================= -->
+<section id="association" class="py-24 md:py-32 bg-paper relative">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="max-w-2xl mb-16 reveal">
+      <p class="text-gold-dim text-xs tracking-[0.14em] uppercase mb-3">Association</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl leading-tight mb-5">More than a club. A professional ecosystem.</h2>
+      <p class="text-ink/65 leading-relaxed">
+        The Association exists to give MBA students a structured path from classroom concepts to real responsibility — through four connected stages that build on one another across the academic year.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 stagger">
+      <div class="reveal lift bg-navy-950 text-off rounded-md p-7 border border-navy-800" style="--i:0">
+        <span class="text-gold-light/80 text-xs font-display font-semibold">01</span>
+        <i data-lucide="book-open" class="w-6 h-6 text-gold-light mt-4 mb-5"></i>
+        <h3 class="font-display font-semibold text-lg mb-2">Learn</h3>
+        <p class="text-off/60 text-sm leading-relaxed">Gain practical knowledge beyond classrooms, drawn directly from your club's discipline.</p>
+      </div>
+      <div class="reveal lift bg-navy-950 text-off rounded-md p-7 border border-navy-800" style="--i:1">
+        <span class="text-gold-light/80 text-xs font-display font-semibold">02</span>
+        <i data-lucide="hand-heart" class="w-6 h-6 text-gold-light mt-4 mb-5"></i>
+        <h3 class="font-display font-semibold text-lg mb-2">Participate</h3>
+        <p class="text-off/60 text-sm leading-relaxed">Get opportunities to contribute, engage in projects and represent your club.</p>
+      </div>
+      <div class="reveal lift bg-navy-950 text-off rounded-md p-7 border border-navy-800" style="--i:2">
+        <span class="text-gold-light/80 text-xs font-display font-semibold">03</span>
+        <i data-lucide="flag" class="w-6 h-6 text-gold-light mt-4 mb-5"></i>
+        <h3 class="font-display font-semibold text-lg mb-2">Lead</h3>
+        <p class="text-off/60 text-sm leading-relaxed">Take responsibility for outcomes and develop genuine leadership habits.</p>
+      </div>
+      <div class="reveal lift bg-navy-950 text-off rounded-md p-7 border border-navy-800" style="--i:3">
+        <span class="text-gold-light/80 text-xs font-display font-semibold">04</span>
+        <i data-lucide="trending-up" class="w-6 h-6 text-gold-light mt-4 mb-5"></i>
+        <h3 class="font-display font-semibold text-lg mb-2">Grow</h3>
+        <p class="text-off/60 text-sm leading-relaxed">Build the professional confidence and capability that classroom work alone can't give.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-16 md:py-20 bg-white border-y border-ink/10">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-12 gap-8 items-center">
+    <div class="lg:col-span-5 reveal">
+      <p class="text-gold-dim text-xs tracking-[0.14em] uppercase mb-3">Inside the Community</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl leading-tight mb-5">Where learning becomes experience.</h2>
+      <p class="text-ink/60 leading-relaxed">Workshops, competitions, simulations and cross-club projects create a professional environment where students can practice what they learn.</p>
+    </div>
+    <div class="lg:col-span-7 reveal-scale grid grid-cols-2 gap-3">
+      <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=900&q=80" class="rounded-md h-48 sm:h-64 w-full object-cover" alt="Students collaborating">
+      <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=80" class="rounded-md h-48 sm:h-64 w-full object-cover mt-6" alt="Professional workshop">
+    </div>
+  </div>
+</section>
+
+<!-- =========================
+     STRUCTURE
+========================= -->
+<section class="py-24 md:py-32 bg-off relative overflow-hidden">
+  <div class="absolute inset-0 grid-field pointer-events-none"></div>
+  <div class="relative max-w-6xl mx-auto px-5 sm:px-8">
+    <div class="max-w-2xl mb-16 reveal">
+      <p class="text-gold-dim text-xs tracking-[0.14em] uppercase mb-3">Structure</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl leading-tight mb-5">How the Association is organised.</h2>
+      <p class="text-ink/65 leading-relaxed">A Chairman and Vice Chairman coordinate three professional clubs, each run by its own elected leadership team.</p>
+    </div>
+
+    <div class="reveal-scale flex flex-col items-center">
+      <div class="bg-navy-950 text-off font-display font-semibold text-sm px-6 py-3 rounded-sm border border-gold/30">
+        MBA Professional Clubs Association
+      </div>
+      <div class="w-px h-8 org-line"></div>
+      <div class="flex items-start gap-0 sm:gap-16 relative">
+        <div class="hidden sm:block absolute top-0 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] h-px org-line"></div>
+        <div class="flex flex-col items-center px-4 sm:px-0">
+          <div class="w-px h-6 org-line sm:hidden"></div>
+          <div class="bg-white border border-navy-800/20 text-ink text-sm font-medium px-5 py-2.5 rounded-sm shadow-sm">Chairman</div>
+        </div>
+        <div class="flex flex-col items-center px-4 sm:px-0">
+          <div class="w-px h-6 org-line sm:hidden"></div>
+          <div class="bg-white border border-navy-800/20 text-ink text-sm font-medium px-5 py-2.5 rounded-sm shadow-sm">Vice Chairman</div>
+        </div>
+      </div>
+      <div class="w-px h-8 org-line"></div>
+      <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-10 relative">
+        <div class="hidden sm:block absolute top-0 left-1/2 -translate-x-1/2 w-[calc(100%-6rem)] h-px org-line"></div>
+        <div class="flex flex-col items-center">
+          <div class="w-px h-6 org-line"></div>
+          <div class="bg-white border-t-2 border-nexus px-6 py-3 rounded-sm shadow-sm text-center min-w-[130px]">
+            <p class="font-display font-semibold text-sm">NEXUS</p>
+            <p class="text-ink/50 text-xs">HR</p>
+          </div>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="w-px h-6 org-line"></div>
+          <div class="bg-white border-t-2 border-vertex px-6 py-3 rounded-sm shadow-sm text-center min-w-[130px]">
+            <p class="font-display font-semibold text-sm">VERTEX</p>
+            <p class="text-ink/50 text-xs">Finance</p>
+          </div>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="w-px h-6 org-line"></div>
+          <div class="bg-white border-t-2 border-pulse px-6 py-3 rounded-sm shadow-sm text-center min-w-[130px]">
+            <p class="font-display font-semibold text-sm">PULSE</p>
+            <p class="text-ink/50 text-xs">Marketing</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================
+     CLUBS
+========================= -->
+<section id="clubs" class="py-24 md:py-32 bg-paper">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="max-w-2xl mb-16 reveal">
+      <p class="text-gold-dim text-xs tracking-[0.14em] uppercase mb-3">Clubs</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl leading-tight mb-5">Three disciplines. One shared standard.</h2>
+      <p class="text-ink/65 leading-relaxed">Each club runs independently within its own discipline, while sharing the Association's structure and standards.</p>
+    </div>
+
+    <div id="club-cards" class="grid md:grid-cols-3 gap-6 stagger"></div>
+  </div>
+</section>
+
+<!-- =========================
+     LEADERSHIP
+========================= -->
+<section id="leadership" class="py-24 md:py-32 bg-navy-950 text-off">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="max-w-3xl mb-14 reveal">
+      <p class="text-gold-light/70 text-xs tracking-[0.14em] uppercase mb-3">Leadership</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl leading-tight mb-5 text-off">Meet the Office Bearers.</h2>
+      <p class="text-off/60 leading-relaxed">Every office bearer has a clickable professional profile. Select any Chairman, Vice Chairman, President, Vice President or Committee Member to view their photo, position, year, division, specialisations, LinkedIn profile, phone number and email address.</p>
+      <div class="mt-5 inline-flex items-center gap-2 px-3 py-2 rounded-full border border-gold/30 bg-white/5 text-gold-light text-xs">
+        <i data-lucide="info" class="w-4 h-4"></i> Sample data — replace with actual elected members
+      </div>
+    </div>
+    <div class="mb-14">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="h-px w-8 bg-gold"></span><h3 class="font-display font-bold text-xl">Association Office Bearers</h3>
+      </div>
+      <div id="association-leadership" class="grid sm:grid-cols-2 gap-5 max-w-4xl"></div>
+    </div>
+    <div id="club-leadership" class="space-y-14"></div>
+  </div>
+</section>
+
+<!-- =========================
+     SELECTION PROCESS
+========================= -->
+<section class="py-24 md:py-32 bg-off">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+    <div class="max-w-2xl mb-16 reveal">
+      <p class="text-gold-dim text-xs tracking-[0.14em] uppercase mb-3">Selection Process</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl leading-tight mb-5">How office bearers are chosen.</h2>
+      <p class="text-ink/65 leading-relaxed max-w-xl">Each club selects five office bearers — one President, one Vice President and three Committee Members — through the same five-step process, for fifteen office bearers in total. The Chairman and Vice Chairman are then elected from among these fifteen.</p>
+    </div>
+
+    <div id="timeline" class="reveal">
+      <div class="hidden sm:block relative h-px bg-ink/10 mb-2 mx-6">
+        <div id="timeline-progress" class="absolute top-0 left-0 h-px timeline-line" style="width:100%; --progress:0%;"></div>
+      </div>
+      <div class="grid sm:grid-cols-5 gap-6 sm:gap-4">
+        <div class="timeline-step flex sm:flex-col items-start sm:items-center gap-4 sm:gap-0" data-step="0">
+          <div class="timeline-dot w-3.5 h-3.5 rounded-full border-2 border-ink/25 sm:mb-4 shrink-0"></div>
+          <div class="sm:text-center">
+            <p class="font-display font-bold text-gold-dim text-sm mb-1">01</p>
+            <p class="timeline-label font-medium text-ink/50 text-sm">Interested Students</p>
+          </div>
+        </div>
+        <div class="timeline-step flex sm:flex-col items-start sm:items-center gap-4 sm:gap-0" data-step="1">
+          <div class="timeline-dot w-3.5 h-3.5 rounded-full border-2 border-ink/25 sm:mb-4 shrink-0"></div>
+          <div class="sm:text-center">
+            <p class="font-display font-bold text-gold-dim text-sm mb-1">02</p>
+            <p class="timeline-label font-medium text-ink/50 text-sm">Resume Screening</p>
+          </div>
+        </div>
+        <div class="timeline-step flex sm:flex-col items-start sm:items-center gap-4 sm:gap-0" data-step="2">
+          <div class="timeline-dot w-3.5 h-3.5 rounded-full border-2 border-ink/25 sm:mb-4 shrink-0"></div>
+          <div class="sm:text-center">
+            <p class="font-display font-bold text-gold-dim text-sm mb-1">03</p>
+            <p class="timeline-label font-medium text-ink/50 text-sm">Shortlisting</p>
+          </div>
+        </div>
+        <div class="timeline-step flex sm:flex-col items-start sm:items-center gap-4 sm:gap-0" data-step="3">
+          <div class="timeline-dot w-3.5 h-3.5 rounded-full border-2 border-ink/25 sm:mb-4 shrink-0"></div>
+          <div class="sm:text-center">
+            <p class="font-display font-bold text-gold-dim text-sm mb-1">04</p>
+            <p class="timeline-label font-medium text-ink/50 text-sm">Personal Interview</p>
+          </div>
+        </div>
+        <div class="timeline-step flex sm:flex-col items-start sm:items-center gap-4 sm:gap-0" data-step="4">
+          <div class="timeline-dot w-3.5 h-3.5 rounded-full border-2 border-ink/25 sm:mb-4 shrink-0"></div>
+          <div class="sm:text-center">
+            <p class="font-display font-bold text-gold-dim text-sm mb-1">05</p>
+            <p class="timeline-label font-medium text-ink/50 text-sm">Final Selection</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal mt-14 grid sm:grid-cols-3 gap-5 max-w-3xl">
+      <div class="bg-white border border-ink/10 rounded-md p-5 text-center">
+        <p class="font-display font-bold text-2xl text-gold-dim">5</p>
+        <p class="text-ink/55 text-xs mt-1">Bearers per club</p>
+      </div>
+      <div class="bg-white border border-ink/10 rounded-md p-5 text-center">
+        <p class="font-display font-bold text-2xl text-gold-dim">15</p>
+        <p class="text-ink/55 text-xs mt-1">Total office bearers</p>
+      </div>
+      <div class="bg-white border border-ink/10 rounded-md p-5 text-center">
+        <p class="font-display font-bold text-2xl text-gold-dim">2</p>
+        <p class="text-ink/55 text-xs mt-1">Elected from the 15</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================
+     ACTIVITIES
+========================= -->
+<section id="activities" class="py-24 md:py-32 bg-paper">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="max-w-2xl mb-10 reveal">
+      <p class="text-gold-dim text-xs tracking-[0.14em] uppercase mb-3">Activities</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl leading-tight mb-5">Events across every club.</h2>
+      <p class="text-ink/65 leading-relaxed">The events below are sample entries showing how the activity calendar will look once the Association is live.</p>
+    </div>
+
+    <div class="reveal flex flex-wrap gap-2 mb-4" role="group" aria-label="Filter by club">
+      <button class="filter-pill club-filter active-filter px-4 py-2 text-xs font-medium rounded-full border" data-club="all">All</button>
+      <button class="filter-pill club-filter px-4 py-2 text-xs font-medium rounded-full border" data-club="NEXUS">NEXUS</button>
+      <button class="filter-pill club-filter px-4 py-2 text-xs font-medium rounded-full border" data-club="VERTEX">VERTEX</button>
+      <button class="filter-pill club-filter px-4 py-2 text-xs font-medium rounded-full border" data-club="PULSE">PULSE</button>
+      <button class="filter-pill club-filter px-4 py-2 text-xs font-medium rounded-full border" data-club="Association">Association</button>
+    </div>
+    <div class="reveal flex flex-wrap gap-2 mb-12">
+      <button class="filter-pill status-filter active-filter px-4 py-2 text-xs font-medium rounded-full border" data-status="all">All Status</button>
+      <button class="filter-pill status-filter px-4 py-2 text-xs font-medium rounded-full border" data-status="upcoming">Upcoming</button>
+      <button class="filter-pill status-filter px-4 py-2 text-xs font-medium rounded-full border" data-status="completed">Completed</button>
+    </div>
+
+    <div id="events-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <p id="events-empty" class="hidden text-center text-ink/50 text-sm py-12">No events match this filter yet.</p>
+  </div>
+</section>
+
+<!-- =========================
+     MEMBERSHIP
+========================= -->
+<section id="membership" class="py-24 md:py-32 bg-navy-950 text-off">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+    <div class="max-w-2xl mb-16 reveal">
+      <p class="text-gold-light/70 text-xs tracking-[0.14em] uppercase mb-3">Membership</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl leading-tight mb-5 text-off">Two ways to be part of it.</h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="reveal lift bg-navy-900 border border-navy-700 rounded-md p-8">
+        <p class="text-off/50 text-xs uppercase tracking-wide mb-3">General Membership</p>
+        <p class="font-display font-bold text-4xl mb-1">₹150</p>
+        <p class="text-off/50 text-sm mb-6">One-time joining fee</p>
+        <ul class="space-y-3 text-sm text-off/75">
+          <li class="flex gap-2.5"><i data-lucide="check" class="w-4 h-4 text-gold-light shrink-0 mt-0.5"></i>Access to club activities</li>
+          <li class="flex gap-2.5"><i data-lucide="check" class="w-4 h-4 text-gold-light shrink-0 mt-0.5"></i>Participation opportunities</li>
+          <li class="flex gap-2.5"><i data-lucide="check" class="w-4 h-4 text-gold-light shrink-0 mt-0.5"></i>Professional learning</li>
+          <li class="flex gap-2.5"><i data-lucide="check" class="w-4 h-4 text-gold-light shrink-0 mt-0.5"></i>Networking</li>
+          <li class="flex gap-2.5"><i data-lucide="check" class="w-4 h-4 text-gold-light shrink-0 mt-0.5"></i>Skill development</li>
+        </ul>
+      </div>
+
+      <div class="reveal lift bg-navy-900 border border-gold/30 rounded-md p-8 relative">
+        <p class="text-off/50 text-xs uppercase tracking-wide mb-3">Office Bearer Contribution</p>
+        <p class="font-display font-bold text-4xl mb-1">₹500</p>
+        <p class="text-off/50 text-sm mb-6">Per selected office bearer</p>
+        <ul class="space-y-3 text-sm text-off/75 mb-6">
+          <li class="flex gap-2.5"><i data-lucide="check" class="w-4 h-4 text-gold-light shrink-0 mt-0.5"></i>Applies only to the 15 selected bearers</li>
+          <li class="flex gap-2.5"><i data-lucide="check" class="w-4 h-4 text-gold-light shrink-0 mt-0.5"></i>Supports club and Association activities</li>
+        </ul>
+        <p class="text-off/45 text-xs leading-relaxed border-t border-navy-700 pt-4">Fee utilisation and financial mechanisms are subject to applicable college / department approval and organisational guidelines.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================
+     RULES
+========================= -->
+<section id="rules" class="py-24 md:py-32 bg-paper">
+  <div class="max-w-4xl mx-auto px-5 sm:px-8">
+    <div class="max-w-2xl mb-14 reveal">
+      <p class="text-gold-dim text-xs tracking-[0.14em] uppercase mb-3">Rules of Conduct</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl leading-tight mb-5">What every member commits to.</h2>
+    </div>
+    <div id="rules-list" class="reveal divide-y divide-ink/10 border-y border-ink/10"></div>
+  </div>
+</section>
+
+<!-- =========================
+     GOVERNANCE
+========================= -->
+<section class="py-24 md:py-32 bg-navy-950 text-off relative overflow-hidden">
+  <div class="absolute inset-0 grid-field-dark pointer-events-none"></div>
+  <div class="relative max-w-5xl mx-auto px-5 sm:px-8 text-center">
+    <p class="text-gold-light/70 text-xs tracking-[0.14em] uppercase mb-3 reveal">Governance</p>
+    <h2 class="font-display font-bold text-2xl sm:text-3xl leading-snug mb-6 reveal max-w-3xl mx-auto">
+      A student-led platform operating under the guidance and authority of the MBA Department / College.
+    </h2>
+    <p class="reveal text-off/60 leading-relaxed max-w-2xl mx-auto mb-10">The MBA Department / College retains final authority over the Association and its activities. Every decision made within the Association operates within that framework.</p>
+
+    <div class="grid sm:grid-cols-4 gap-5 max-w-3xl mx-auto stagger">
+      <div class="reveal" style="--i:0">
+        <i data-lucide="link-2" class="w-5 h-5 text-gold-light mx-auto mb-2"></i>
+        <p class="text-off/70 text-sm">Coordination</p>
+      </div>
+      <div class="reveal" style="--i:1">
+        <i data-lucide="eye" class="w-5 h-5 text-gold-light mx-auto mb-2"></i>
+        <p class="text-off/70 text-sm">Transparency</p>
+      </div>
+      <div class="reveal" style="--i:2">
+        <i data-lucide="shield-check" class="w-5 h-5 text-gold-light mx-auto mb-2"></i>
+        <p class="text-off/70 text-sm">Responsibility</p>
+      </div>
+      <div class="reveal" style="--i:3">
+        <i data-lucide="repeat" class="w-5 h-5 text-gold-light mx-auto mb-2"></i>
+        <p class="text-off/70 text-sm">Handover</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================
+     TENURE
+========================= -->
+<section class="py-20 md:py-24 bg-off">
+  <div class="max-w-3xl mx-auto px-5 sm:px-8 text-center reveal">
+    <h2 class="font-display font-bold text-2xl sm:text-3xl leading-snug mb-5">One team. One academic year. A legacy to continue.</h2>
+    <p class="text-ink/65 leading-relaxed">Office bearers normally serve for one academic year, unless otherwise decided by the college or department. Outgoing teams hand over relevant records, financial information, activity documentation, ongoing work and organisational knowledge to the team that follows them.</p>
+  </div>
+</section>
+
+<!-- =========================
+     CTA
+========================= -->
+<section class="py-24 md:py-32 bg-navy-950 text-off relative overflow-hidden">
+  <div class="absolute inset-0 grid-field-dark pointer-events-none"></div>
+  <div class="relative max-w-4xl mx-auto px-5 sm:px-8 text-center reveal">
+    <h2 class="font-display font-extrabold text-3xl sm:text-5xl leading-tight mb-6">Your MBA journey should be more than a classroom.</h2>
+    <p class="text-off/65 text-lg mb-10 max-w-xl mx-auto">Learn from opportunities. Participate in experiences. Lead with responsibility. Grow together.</p>
+    <a href="#clubs" class="inline-block px-8 py-4 bg-gold text-navy-950 font-semibold rounded-sm hover:bg-gold-light transition-colors">Explore the Clubs</a>
+  </div>
+</section>
+
+</main>
+
+<!-- =========================
+     FOOTER
+========================= -->
+<footer id="contact" class="bg-navy-950 border-t border-navy-800 text-off/60 pt-16 pb-8">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="grid sm:grid-cols-3 gap-10 mb-12">
+      <div>
+        <p class="font-display font-semibold text-off text-sm mb-3">MBA Professional Clubs Association</p>
+        <p class="text-sm leading-relaxed max-w-xs">Student-led initiative operating under applicable college and department guidelines.</p>
+      </div>
+      <div>
+        <p class="text-off/40 text-xs uppercase tracking-wide mb-3">Navigate</p>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#home" class="hover:text-gold-light transition-colors">Home</a></li>
+          <li><a href="#association" class="hover:text-gold-light transition-colors">Association</a></li>
+          <li><a href="#clubs" class="hover:text-gold-light transition-colors">Clubs</a></li>
+          <li><a href="#leadership" class="hover:text-gold-light transition-colors">Leadership</a></li>
+          <li><a href="#activities" class="hover:text-gold-light transition-colors">Activities</a></li>
+          <li><a href="#membership" class="hover:text-gold-light transition-colors">Membership</a></li>
+          <li><a href="#rules" class="hover:text-gold-light transition-colors">Rules</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-off/40 text-xs uppercase tracking-wide mb-3">Contact</p>
+        <p class="text-sm mb-1">clubs@mba-campus.edu</p>
+        <p class="text-sm">www.mba-campus.edu</p>
+      </div>
+    </div>
+    <div class="border-t border-navy-800 pt-6 flex flex-col sm:flex-row justify-between gap-2 text-xs text-off/40">
+      <p>&copy; <span id="year"></span> MBA Professional Clubs Association</p>
+      <p>Student-led initiative operating under applicable college and department guidelines.</p>
+    </div>
+  </div>
+</footer>
+
+<button id="back-to-top" aria-label="Back to top" class="fixed bottom-6 right-6 w-11 h-11 rounded-full bg-gold text-navy-950 flex items-center justify-center shadow-lg opacity-0 pointer-events-none translate-y-3 z-40">
+  <i data-lucide="arrow-up" class="w-5 h-5"></i>
+</button>
+
+<!-- =========================
+     OFFICE BEARER PROFILE MODAL
+========================= -->
+<div id="profile-modal" class="fixed inset-0 z-[70] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
+  <div class="modal-backdrop absolute inset-0 bg-navy-950/70" data-close-modal></div>
+  <div class="modal-panel relative bg-paper w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-md p-6 sm:p-9">
+    <button data-close-modal aria-label="Close profile" class="absolute top-5 right-5 text-ink/50 hover:text-ink z-10">
+      <i data-lucide="x" class="w-5 h-5"></i>
+    </button>
+    <div id="profile-modal-body"></div>
+  </div>
+</div>
+
+<!-- =========================
+     CLUB MODAL
+========================= -->
+<div id="club-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="club-modal-title">
+  <div class="modal-backdrop absolute inset-0 bg-navy-950/70" data-close-modal></div>
+  <div class="modal-panel relative bg-paper w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-md p-7 sm:p-9">
+    <button data-close-modal aria-label="Close" class="absolute top-5 right-5 text-ink/50 hover:text-ink">
+      <i data-lucide="x" class="w-5 h-5"></i>
+    </button>
+    <div id="club-modal-body"></div>
+  </div>
+</div>
+
+<!-- =========================
+     EVENT MODAL
+========================= -->
+<div id="event-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="event-modal-title">
+  <div class="modal-backdrop absolute inset-0 bg-navy-950/70" data-close-modal></div>
+  <div class="modal-panel relative bg-paper w-full max-w-xl max-h-[85vh] overflow-y-auto rounded-md p-7 sm:p-9">
+    <button data-close-modal aria-label="Close" class="absolute top-5 right-5 text-ink/50 hover:text-ink">
+      <i data-lucide="x" class="w-5 h-5"></i>
+    </button>
+    <div id="event-modal-body"></div>
+  </div>
+</div>
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- DATA ---------- */
+
+  // Replace IMAGE_URL_HERE with the direct URL of the actual event photograph.
+  const clubs = [
+    {
+      id: 'NEXUS',
+      name: 'NEXUS',
+      discipline: 'HR Club',
+      accent: 'nexus',
+      icon: 'users',
+      description: 'A platform focused on people, talent, workplace practices and human resource management.',
+      tags: ['Recruitment', 'Talent Management', 'Training', 'HR Analytics', 'Employee Relations'],
+      head: 'Aarav Kulkarni',
+      deputy: 'Riya Patil',
+      executives: ['Aditya Shah', 'Sneha Joshi', 'Kabir Deshmukh'],
+      activities: 'Case studies, HR simulations and workplace-practice workshops run across the year.',
+       image: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=80'
+    },
+    {
+      id: 'VERTEX',
+      name: 'VERTEX',
+      discipline: 'Finance Club',
+      accent: 'vertex',
+      icon: 'line-chart',
+      description: 'A platform focused on financial thinking, analysis, markets and business decision-making.',
+      tags: ['Financial Analysis', 'Investment', 'Banking', 'Markets', 'Corporate Finance'],
+      head: 'Aarav Kulkarni',
+      deputy: 'Riya Patil',
+      executives: ['Aditya Shah', 'Sneha Joshi', 'Kabir Deshmukh'],
+      activities: 'Valuation challenges, market simulations and investment case competitions.',
+       image: 'https://images.unsplash.com/photo-1559526324-593bc073d938?auto=format&fit=crop&w=1200&q=80'
+    },
+    {
+      id: 'PULSE',
+      name: 'PULSE',
+      discipline: 'Marketing Club',
+      accent: 'pulse',
+      icon: 'megaphone',
+      description: 'A platform focused on branding, consumer behaviour, digital marketing and market strategy.',
+      tags: ['Branding', 'Digital Marketing', 'Consumer Behaviour', 'Advertising', 'Sales'],
+      head: 'Aarav Kulkarni',
+      deputy: 'Riya Patil',
+      executives: ['Aditya Shah', 'Sneha Joshi', 'Kabir Deshmukh'],
+      activities: 'Brand strategy sprints, campaign pitches and consumer research projects.',
+       image: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80'
+    }
+  ];
+
+  const officeBearers = {
+    "chairman": {
+      name:"Arjun Desai", role:"Chairman", club:"MBA Professional Clubs Association", clubCode:"Association",
+      classYear:"Second Year MBA", division:"A", phone:"+91 98765 43210", email:"arjun.desai@mba-campus.edu",
+      linkedin:"https://www.linkedin.com/in/arjun-desai-mba", photo:"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=700&q=85",
+      interests:["Leadership","Cross-club Coordination","Professional Development"], specialisations:["Marketing","IT"],
+      bio:"Coordinates the Association, supports all three clubs and helps align student initiatives with the Association's academic and professional objectives."
+    },
+    "vice-chairman": {
+      name:"Ishita More", role:"Vice Chairman", club:"MBA Professional Clubs Association", clubCode:"Association",
+      classYear:"Second Year MBA", division:"B", phone:"+91 98765 43211", email:"ishita.more@mba-campus.edu",
+      linkedin:"https://www.linkedin.com/in/ishita-more-mba", photo:"https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=85",
+      interests:["Event Planning","Student Engagement","Leadership"], specialisations:["HR","Marketing"],
+      bio:"Supports the Chairman in coordination, member engagement and smooth execution of Association-wide initiatives."
+    },
+    "nexus-head": {
+      name:"Aarav Kulkarni", role:"President", club:"NEXUS", clubCode:"NEXUS", classYear:"Second Year MBA", division:"A",
+      phone:"+91 98765 43212", email:"aarav.kulkarni@mba-campus.edu", linkedin:"https://www.linkedin.com/in/aarav-kulkarni-mba",
+      photo:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=700&q=85",
+      interests:["Recruitment","Talent Acquisition","HR Events"], specialisations:["HR","IT"],
+      bio:"Leads NEXUS and coordinates practical HR learning activities, competitions and student participation."
+    },
+    "nexus-deputy": {
+      name:"Riya Patil", role:"Vice President", club:"NEXUS", clubCode:"NEXUS", classYear:"Second Year MBA", division:"B",
+      phone:"+91 98765 43213", email:"riya.patil@mba-campus.edu", linkedin:"https://www.linkedin.com/in/riya-patil-mba",
+      photo:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=700&q=85",
+      interests:["Employee Engagement","Training","Campus Initiatives"], specialisations:["HR","Marketing"],
+      bio:"Assists the NEXUS Head and supports planning, communication and delivery of HR-focused activities."
+    },
+    "nexus-exec-1": {
+      name:"Aditya Shah", role:"Committee Member", club:"NEXUS", clubCode:"NEXUS", classYear:"Second Year MBA", division:"C",
+      phone:"+91 98765 43214", email:"aditya.shah@mba-campus.edu", linkedin:"https://www.linkedin.com/in/aditya-shah-mba",
+      photo:"https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=700&q=85",
+      interests:["Resume Screening","Employer Branding","Workshops"], specialisations:["HR","IT"],
+      bio:"Contributes to HR workshops, student activities and recruitment-oriented projects."
+    },
+    "nexus-exec-2": {
+      name:"Sneha Joshi", role:"Committee Member", club:"NEXUS", clubCode:"NEXUS", classYear:"Second Year MBA", division:"A",
+      phone:"+91 98765 43215", email:"sneha.joshi@mba-campus.edu", linkedin:"https://www.linkedin.com/in/sneha-joshi-mba",
+      photo:"https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=700&q=85",
+      interests:["Learning & Development","People Analytics","Case Studies"], specialisations:["HR","IT"],
+      bio:"Supports research, case studies and people-focused learning initiatives within NEXUS."
+    },
+    "nexus-exec-3": {
+      name:"Kabir Deshmukh", role:"Committee Member", club:"NEXUS", clubCode:"NEXUS", classYear:"Second Year MBA", division:"B",
+      phone:"+91 98765 43216", email:"kabir.deshmukh@mba-campus.edu", linkedin:"https://www.linkedin.com/in/kabir-deshmukh-mba",
+      photo:"https://images.unsplash.com/photo-1507591064344-4c6ce005b128?auto=format&fit=crop&w=700&q=85",
+      interests:["Interview Coordination","HR Analytics","Team Activities"], specialisations:["HR","Marketing"],
+      bio:"Works on activity coordination, HR analytics demonstrations and student engagement."
+    },
+    "vertex-head": {
+      name:"Vikram Joshi", role:"President", club:"VERTEX", clubCode:"VERTEX", classYear:"Second Year MBA", division:"A",
+      phone:"+91 98765 43217", email:"vikram.joshi@mba-campus.edu", linkedin:"https://www.linkedin.com/in/vikram-joshi-mba",
+      photo:"https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=700&q=85",
+      interests:["Investment Analysis","Financial Modelling","Markets"], specialisations:["Finance","IT"],
+      bio:"Leads VERTEX and drives finance-focused learning through analysis challenges, simulations and competitions."
+    },
+    "vertex-deputy": {
+      name:"Meera Kulkarni", role:"Vice President", club:"VERTEX", clubCode:"VERTEX", classYear:"Second Year MBA", division:"B",
+      phone:"+91 98765 43218", email:"meera.kulkarni@mba-campus.edu", linkedin:"https://www.linkedin.com/in/meera-kulkarni-mba",
+      photo:"https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=700&q=85",
+      interests:["Banking","Budgeting","Finance Events"], specialisations:["Finance","Marketing"],
+      bio:"Supports VERTEX activities with a focus on finance events, business cases and practical financial decision-making."
+    },
+    "vertex-exec-1": {
+      name:"Rohan Patil", role:"Committee Member", club:"VERTEX", clubCode:"VERTEX", classYear:"Second Year MBA", division:"C",
+      phone:"+91 98765 43219", email:"rohan.patil@mba-campus.edu", linkedin:"https://www.linkedin.com/in/rohan-patil-mba",
+      photo:"https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=700&q=85",
+      interests:["Corporate Finance","Valuation","Case Competitions"], specialisations:["Finance","IT"],
+      bio:"Contributes to valuation activities, finance case competitions and analytical projects."
+    },
+    "vertex-exec-2": {
+      name:"Ananya Deshmukh", role:"Committee Member", club:"VERTEX", clubCode:"VERTEX", classYear:"Second Year MBA", division:"A",
+      phone:"+91 98765 43220", email:"ananya.deshmukh@mba-campus.edu", linkedin:"https://www.linkedin.com/in/ananya-deshmukh-mba",
+      photo:"https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=700&q=85",
+      interests:["Financial Literacy","Markets","Research"], specialisations:["Finance","Marketing"],
+      bio:"Supports research, financial literacy initiatives and market-oriented student activities."
+    },
+    "vertex-exec-3": {
+      name:"Neel Shah", role:"Committee Member", club:"VERTEX", clubCode:"VERTEX", classYear:"Second Year MBA", division:"B",
+      phone:"+91 98765 43221", email:"neel.shah@mba-campus.edu", linkedin:"https://www.linkedin.com/in/neel-shah-mba",
+      photo:"https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=700&q=85",
+      interests:["Banking","Excel & Analytics","Investment"], specialisations:["Finance","IT"],
+      bio:"Works on finance analytics demonstrations, banking discussions and investment activities."
+    },
+    "pulse-head": {
+      name:"Arjun Mehta", role:"President", club:"PULSE", clubCode:"PULSE", classYear:"Second Year MBA", division:"A",
+      phone:"+91 98765 43222", email:"arjun.mehta@mba-campus.edu", linkedin:"https://www.linkedin.com/in/arjun-mehta-mba",
+      photo:"https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?auto=format&fit=crop&w=700&q=85",
+      interests:["Brand Strategy","Digital Campaigns","Consumer Behaviour"], specialisations:["Marketing","IT"],
+      bio:"Leads PULSE and develops practical marketing experiences through campaign challenges and brand projects."
+    },
+    "pulse-deputy": {
+      name:"Priya Nair", role:"Vice President", club:"PULSE", clubCode:"PULSE", classYear:"Second Year MBA", division:"C",
+      phone:"+91 98765 43223", email:"priya.nair@mba-campus.edu", linkedin:"https://www.linkedin.com/in/priya-nair-mba",
+      photo:"https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=700&q=85",
+      interests:["Advertising","Social Media","Content Strategy"], specialisations:["Marketing","HR"],
+      bio:"Supports PULSE with campaign planning, student engagement and practical marketing communication."
+    },
+    "pulse-exec-1": {
+      name:"Karan Desai", role:"Committee Member", club:"PULSE", clubCode:"PULSE", classYear:"Second Year MBA", division:"B",
+      phone:"+91 98765 43224", email:"karan.desai@mba-campus.edu", linkedin:"https://www.linkedin.com/in/karan-desai-mba",
+      photo:"https://images.unsplash.com/photo-1504257432389-52343af06ae3?auto=format&fit=crop&w=700&q=85",
+      interests:["Branding","Market Research","Presentation Design"], specialisations:["Marketing","IT"],
+      bio:"Contributes to market research, brand exercises and visual presentation projects."
+    },
+    "pulse-exec-2": {
+      name:"Isha More", role:"Committee Member", club:"PULSE", clubCode:"PULSE", classYear:"Second Year MBA", division:"A",
+      phone:"+91 98765 43225", email:"isha.more@mba-campus.edu", linkedin:"https://www.linkedin.com/in/isha-more-mba",
+      photo:"https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=700&q=85",
+      interests:["Consumer Behaviour","Events","Advertising"], specialisations:["Marketing","HR"],
+      bio:"Supports consumer-focused activities, event promotion and advertising exercises."
+    },
+    "pulse-exec-3": {
+      name:"Rohan Desai", role:"Committee Member", club:"PULSE", clubCode:"PULSE", classYear:"Second Year MBA", division:"C",
+      phone:"+91 98765 43226", email:"rohan.desai@mba-campus.edu", linkedin:"https://www.linkedin.com/in/rohan-desai-mba",
+      photo:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=700&q=85",
+      interests:["Digital Marketing","SEO","Campaign Analytics"], specialisations:["Marketing","IT"],
+      bio:"Works on digital marketing concepts, campaign analytics and online communication activities."
+    }
+  };
+
+  const associationOfficeBearers = ["chairman","vice-chairman"];
+  const clubBearerIds = {
+    NEXUS:["nexus-head","nexus-deputy","nexus-exec-1","nexus-exec-2","nexus-exec-3"],
+    VERTEX:["vertex-head","vertex-deputy","vertex-exec-1","vertex-exec-2","vertex-exec-3"],
+    PULSE:["pulse-head","pulse-deputy","pulse-exec-1","pulse-exec-2","pulse-exec-3"]
+  };
+
+  const events = [
+    {
+      title: 'HR Case Study Competition',
+      club: 'NEXUS',
+      category: 'Competition',
+      date: '12 September 2026 · 10:30 AM',
+      description: 'A demo event description used to preview how a completed HR case study competition would appear on this page.',
+      image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80',
+      status: 'completed'
+    },
+    {
+      title: 'Financial Analysis Challenge',
+      club: 'VERTEX',
+      category: 'Competition',
+      date: '19 September 2026 · 11:00 AM',
+      description: 'A demo event description used to preview how a completed finance challenge would appear on this page.',
+      image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=80',
+      status: 'completed'
+    },
+    {
+      title: 'Brand Strategy Challenge',
+      club: 'PULSE',
+      category: 'Workshop',
+      date: '26 September 2026 · 2:00 PM',
+      description: 'A demo event description used to preview how an upcoming marketing workshop would appear on this page.',
+      image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80',
+      status: 'upcoming'
+    },
+    {
+      title: 'Inter-Club Management Quiz',
+      club: 'Association',
+      category: 'Association-wide',
+      date: '03 October 2026 · 10:00 AM',
+      description: 'A demo event description used to preview how an upcoming Association-wide event would appear on this page.',
+      image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80',
+      status: 'upcoming'
+    }
+  ];
+
+  const rules = [
+    'Follow college and department rules.',
+    'Maintain professional and respectful conduct.',
+    'Do not misuse Association positions.',
+    'Do not misuse Association resources.',
+    'Do not represent the college or Association without authorization.',
+    'Maintain financial transparency.',
+    'Protect confidential information.',
+    'Academic responsibilities remain a priority.',
+    'Maintain the reputation of the college and MBA Department.',
+    'Office bearers must fulfill assigned responsibilities.',
+    'Disciplinary matters remain subject to applicable college procedures.',
+    'Responsibilities may be reassigned where necessary under established rules.'
+  ];
+
+  const accentText = { nexus: 'text-nexus', vertex: 'text-vertex', pulse: 'text-pulse' };
+  const accentBg = { nexus: 'bg-nexus', vertex: 'bg-vertex', pulse: 'bg-pulse' };
+  const accentBorder = { nexus: 'border-nexus', vertex: 'border-vertex', pulse: 'border-pulse' };
+
+
+  /* ---------- OFFICE BEARER PROFILES ---------- */
+  const clubProfileAccent = {NEXUS:"#123B6D", VERTEX:"#1D5C91", PULSE:"#C9A227"};
+
+  function profileCard(id){
+    const p=officeBearers[id], accent=clubProfileAccent[p.clubCode] || "#C9A227";
+    return `<button type="button" class="profile-card-btn reveal lift bg-navy-900 border border-navy-700 rounded-md p-5 flex items-center gap-4" data-profile-id="${id}" style="border-left:4px solid ${accent}" aria-haspopup="dialog" aria-label="Open ${p.name} profile">
+      <img src="${p.photo}" class="profile-photo" alt="${p.name}" loading="lazy">
+      <span class="min-w-0">
+        <span class="block text-[10px] uppercase tracking-[.12em] text-gold-light/75 mb-1">${p.role}</span>
+        <span class="block font-display font-bold text-off text-lg truncate">${p.name}</span>
+        <span class="block text-off/55 text-xs mt-1">${p.classYear} · Division ${p.division}</span>
+        <span class="flex flex-wrap gap-1.5 mt-3">${p.specialisations.map(x=>`<span class="text-[10px] px-2 py-1 rounded-full bg-white/10 text-off/75">${x}</span>`).join("")}</span>
+        <span class="inline-flex items-center gap-1 text-gold-light text-xs font-semibold mt-3">View complete profile <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></span>
+      </span>
+    </button>`;
+  }
+
+  function renderLeadershipProfiles(){
+    document.getElementById("association-leadership").innerHTML=associationOfficeBearers.map(profileCard).join("");
+    const wrap=document.getElementById("club-leadership");
+    wrap.innerHTML=Object.entries(clubProfileIds()).map(([club,ids])=>{
+      const c=clubs.find(x=>x.id===club);
+      return `<div class="reveal">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="h-px w-8" style="background:${clubProfileAccent[club]}"></span>
+          <div><h3 class="font-display font-bold text-xl">${club} <span class="text-off/45 font-normal">· ${c.discipline}</span></h3>
+          <p class="text-off/45 text-xs mt-1">President · Vice President · 3 Committee Members</p></div>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">${ids.map(profileCard).join("")}</div>
+      </div>`;
+    }).join("");
+    lucide.createIcons();
+  }
+
+  function clubProfileIds(){ return clubBearerIds; }
+
+  function openProfileModal(id){
+    const p=officeBearers[id]; if(!p) return;
+    const body=document.getElementById("profile-modal-body");
+    if(!body) return;
+    body.innerHTML=`
+      <div class="flex flex-col sm:flex-row gap-6 items-center sm:items-start pr-8">
+        <img src="${p.photo}" alt="${p.name}" class="profile-modal-photo">
+        <div class="text-center sm:text-left min-w-0">
+          <span class="inline-flex px-3 py-1 rounded-full text-[10px] uppercase tracking-wider font-bold" style="background:rgba(201,162,39,.12);color:#C9A227">${p.role}</span>
+          <h3 id="profile-modal-title" class="font-display font-extrabold text-3xl mt-3 break-words" style="color:#17212B">${p.name}</h3>
+          <p class="font-semibold mt-1" style="color:#123B6D">${p.club}</p>
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-2 mt-7 rounded-xl px-5" style="background:#F7F8FA;border:1px solid rgba(18,59,109,.10)">
+        <div class="profile-info-row"><i data-lucide="badge" class="w-4 h-4 mt-0.5" style="color:#C9A227"></i><div><p class="text-[10px] uppercase tracking-wider font-bold" style="color:#526273">Position</p><p class="font-semibold" style="color:#17212B">${p.role}</p></div></div>
+        <div class="profile-info-row"><i data-lucide="graduation-cap" class="w-4 h-4 mt-0.5" style="color:#C9A227"></i><div><p class="text-[10px] uppercase tracking-wider font-bold" style="color:#526273">Year</p><p class="font-semibold" style="color:#17212B">${p.classYear}</p></div></div>
+        <div class="profile-info-row"><i data-lucide="layers-3" class="w-4 h-4 mt-0.5" style="color:#C9A227"></i><div><p class="text-[10px] uppercase tracking-wider font-bold" style="color:#526273">Division</p><p class="font-semibold" style="color:#17212B">Division ${p.division}</p></div></div>
+        <div class="profile-info-row"><i data-lucide="building-2" class="w-4 h-4 mt-0.5" style="color:#C9A227"></i><div><p class="text-[10px] uppercase tracking-wider font-bold" style="color:#526273">Association / Club</p><p class="font-semibold" style="color:#17212B">${p.club}</p></div></div>
+      </div>
+
+      <div class="mt-6 rounded-xl p-5" style="background:#F7F8FA;border:1px solid rgba(18,59,109,.10)">
+        <p class="text-[11px] uppercase tracking-wider font-bold mb-3" style="color:#526273">Specialisations</p>
+        <div class="flex flex-wrap gap-2">${p.specialisations.map(x=>`<span class="profile-chip">${x}</span>`).join("")}</div>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-3 mt-6">
+        <a class="profile-contact" href="tel:${p.phone.replace(/\s/g,"")}"><i data-lucide="phone" class="w-4 h-4"></i><span>${p.phone}</span></a>
+        <a class="profile-contact" href="mailto:${p.email}"><i data-lucide="mail" class="w-4 h-4"></i><span class="break-all">${p.email}</span></a>
+        <a class="profile-contact sm:col-span-2" href="${p.linkedin}" target="_blank" rel="noopener noreferrer"><i data-lucide="linkedin" class="w-4 h-4"></i><span class="break-all">${p.linkedin}</span><i data-lucide="external-link" class="w-3.5 h-3.5 ml-auto"></i></a>
+      </div>
+
+      <div class="mt-6 rounded-xl p-5" style="background:#fff;border:1px solid rgba(18,59,109,.10)">
+        <p class="text-[11px] uppercase tracking-wider font-bold mb-2" style="color:#526273">About</p>
+        <p class="leading-relaxed" style="color:#526273">${p.bio}</p>
+      </div>
+
+      <div class="mt-5 px-4 py-3 rounded-lg text-xs" style="background:#fff8df;color:#526273;border:1px solid rgba(201,162,39,.35)">
+        <strong style="color:#0B1F33">Sample profile:</strong> Replace the demo name, photo, year, division, specialisations, LinkedIn URL, phone number and email with the actual elected member's details before publication.
+      </div>`;
+    lucide.createIcons();
+    openModal("profile-modal");
+  }
+
+  /* ---------- RENDER: CLUB CARDS ---------- */
+
+  function renderClubCards() {
+    const wrap = document.getElementById('club-cards');
+    wrap.innerHTML = clubs.map((c, i) => `
+      <button class="club-card reveal lift text-left bg-white border border-ink/10 rounded-md overflow-hidden" style="--i:${i}" data-club-id="${c.id}" aria-haspopup="dialog">
+        <div class="accent-bar ${accentBg[c.accent]}"></div>
+        <div class="club-image">
+          <img src="${c.image}" alt="${c.name} ${c.discipline}" loading="lazy">
+          <span class="absolute z-10 bottom-3 left-4 badge-demo bg-navy-950/90 text-gold-light rounded-sm">${c.discipline}</span>
+        </div>
+        <div class="p-7">
+          <div class="flex items-center justify-between mb-5">
+            <span class="w-10 h-10 rounded-sm ${accentBg[c.accent]}/10 flex items-center justify-center ${accentText[c.accent]}">
+              <i data-lucide="${c.icon}" class="w-5 h-5"></i>
+            </span>
+            <span class="text-ink/35 text-xs">${c.discipline}</span>
+          </div>
+          <h3 class="font-display font-bold text-2xl mb-3">${c.name}</h3>
+          <p class="text-ink/60 text-sm leading-relaxed mb-5">${c.description}</p>
+          <div class="flex flex-wrap gap-1.5 mb-6">
+            ${c.tags.map(t => `<span class="text-[11px] px-2.5 py-1 bg-off rounded-full text-ink/55">${t}</span>`).join('')}
+          </div>
+          <span class="inline-flex items-center gap-1.5 text-sm font-semibold ${accentText[c.accent]}">
+            Explore ${c.name} <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </span>
+        </div>
+      </button>
+    `).join('');
+
+    document.querySelectorAll('.club-card').forEach(btn => {
+      btn.addEventListener('click', () => openClubModal(btn.dataset.clubId));
+    });
+    lucide.createIcons();
+  }
+
+  function openClubModal(id) {
+    const c = clubs.find(x => x.id === id);
+    if (!c) return;
+    const body = document.getElementById('club-modal-body');
+    body.innerHTML = `
+      <div class="rounded-md overflow-hidden h-44 mb-6 relative">
+        <img src="${c.image}" alt="${c.name}" class="image-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-navy-950/65 to-transparent"></div>
+        <span class="absolute bottom-4 left-4 badge-demo bg-navy-950 text-gold-light rounded-sm">${c.discipline}</span>
+      </div>
+      <div class="flex items-center gap-3 mb-1">
+        <span class="w-10 h-10 rounded-sm ${accentBg[c.accent]}/10 flex items-center justify-center ${accentText[c.accent]}">
+          <i data-lucide="${c.icon}" class="w-5 h-5"></i>
+        </span>
+        <div>
+          <h3 id="club-modal-title" class="font-display font-bold text-2xl">${c.name}</h3>
+          <p class="text-ink/50 text-sm">${c.discipline}</p>
+        </div>
+      </div>
+      <p class="text-ink/65 leading-relaxed my-6">${c.description}</p>
+
+      <p class="text-ink/40 text-xs uppercase tracking-wide mb-2">Focus Areas</p>
+      <div class="flex flex-wrap gap-1.5 mb-7">
+        ${c.tags.map(t => `<span class="text-xs px-3 py-1 bg-off rounded-full text-ink/60">${t}</span>`).join('')}
+      </div>
+
+      <p class="text-ink/40 text-xs uppercase tracking-wide mb-3">Leadership</p>
+      <div class="grid sm:grid-cols-2 gap-3 mb-7">
+        <div class="border ${accentBorder[c.accent]}/40 border-l-2 rounded-sm p-3 bg-off/60">
+          <p class="text-ink/40 text-xs">President</p>
+          <p class="font-medium text-sm">${c.head}</p>
+        </div>
+        <div class="border ${accentBorder[c.accent]}/40 border-l-2 rounded-sm p-3 bg-off/60">
+          <p class="text-ink/40 text-xs">Vice President</p>
+          <p class="font-medium text-sm">${c.deputy}</p>
+        </div>
+      </div>
+
+      <p class="text-ink/40 text-xs uppercase tracking-wide mb-3">Executive Members</p>
+      <ul class="grid sm:grid-cols-3 gap-2 mb-7 text-sm text-ink/70">
+        ${c.executives.map(e => `<li class="bg-off/60 rounded-sm p-3 text-center">${e}</li>`).join('')}
+      </ul>
+
+      <p class="text-ink/40 text-xs uppercase tracking-wide mb-2">Activities</p>
+      <p class="text-ink/65 text-sm leading-relaxed mb-4">${c.activities}</p>
+      <span class="badge-demo inline-block border border-ink/20 text-ink/50 rounded-sm">SAMPLE PROFILE</span>
+    `;
+    lucide.createIcons();
+    openModal('club-modal');
+  }
+
+  /* ---------- RENDER: CLUB LEADERSHIP ---------- */
+
+  function renderClubLeadership() {
+    // Kept for backward compatibility. The complete clickable leadership UI
+    // is rendered by renderLeadershipProfiles().
+    renderLeadershipProfiles();
+  }
+
+
+  /* ---------- RENDER: EVENTS ---------- */
+
+  let activeClubFilter = 'all';
+  let activeStatusFilter = 'all';
+
+  function renderEvents() {
+    const grid = document.getElementById('events-grid');
+    const empty = document.getElementById('events-empty');
+    const filtered = events.filter(e =>
+      (activeClubFilter === 'all' || e.club === activeClubFilter) &&
+      (activeStatusFilter === 'all' || e.status === activeStatusFilter)
+    );
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '';
+      empty.classList.remove('hidden');
+      return;
+    }
+    empty.classList.add('hidden');
+
+    grid.innerHTML = filtered.map((e, i) => {
+      const idx = events.indexOf(e);
+      const statusLabel = e.status === 'completed' ? 'Completed' : 'Upcoming';
+      return `
+      <div class="event-card lift bg-white border border-ink/10 rounded-md overflow-hidden reveal is-visible" style="--i:${i}">
+        <div class="event-image">
+          <img src="${e.image}" alt="${e.title}" loading="lazy">
+          <span class="absolute z-10 top-3 left-3 badge-demo bg-navy-950 text-gold-light rounded-sm">SAMPLE EVENT</span>
+          <span class="absolute z-10 bottom-3 right-3 text-[10px] px-2 py-1 bg-white/90 text-navy-950 rounded-full font-semibold">${statusLabel}</span>
+        </div>
+        <div class="p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[11px] font-semibold uppercase tracking-wide text-ink/45">${e.club} · ${e.category}</span>
+            <span class="text-[11px] px-2 py-0.5 rounded-full ${e.status === 'completed' ? 'bg-ink/10 text-ink/50' : 'bg-gold/15 text-gold-dim'}">${statusLabel}</span>
+          </div>
+          <h3 class="font-display font-semibold text-lg mb-2">${e.title}</h3>
+          <p class="text-ink/40 text-xs mb-3">${e.date}</p>
+          <p class="text-ink/60 text-sm leading-relaxed mb-5">${e.description}</p>
+          <button class="event-view-btn text-sm font-semibold text-gold-dim inline-flex items-center gap-1.5" data-event-index="${idx}">
+            View Details <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      </div>`;
+    }).join('');
+
+    document.querySelectorAll('.event-view-btn').forEach(btn => {
+      btn.addEventListener('click', () => openEventModal(Number(btn.dataset.eventIndex)));
+    });
+    lucide.createIcons();
+  }
+
+  function openEventModal(index) {
+    const e = events[index];
+    if (!e) return;
+    const body = document.getElementById('event-modal-body');
+    body.innerHTML = `
+      <div class="h-40 bg-off rounded-md flex items-center justify-center text-ink/25 mb-6 relative">
+        <i data-lucide="image" class="w-7 h-7"></i>
+        <span class="absolute top-3 left-3 badge-demo bg-navy-950 text-gold-light rounded-sm">SAMPLE EVENT</span>
+      </div>
+      <p class="text-[11px] font-semibold uppercase tracking-wide text-ink/45 mb-2">${e.club} · ${e.category}</p>
+      <h3 id="event-modal-title" class="font-display font-bold text-2xl mb-2">${e.title}</h3>
+      <p class="text-ink/40 text-sm mb-5">${e.date}</p>
+      <p class="text-ink/65 leading-relaxed mb-6">${e.description}</p>
+      <p class="text-ink/40 text-xs uppercase tracking-wide mb-2">${e.status === 'completed' ? 'Event Highlights' : 'What to Expect'}</p>
+      <p class="text-ink/60 text-sm leading-relaxed mb-6">${e.status === 'completed' ? 'Demo highlight content — outcomes and takeaways will be added here once the event has taken place.' : 'Demo preview content — an agenda and participation details will be added here closer to the event.'}</p>
+      <p class="text-ink/40 text-xs uppercase tracking-wide mb-2">Gallery</p>
+      <div class="grid grid-cols-3 gap-2">
+        <div class="h-16 bg-off rounded-sm flex items-center justify-center text-ink/20"><i data-lucide="image" class="w-4 h-4"></i></div>
+        <div class="h-16 bg-off rounded-sm flex items-center justify-center text-ink/20"><i data-lucide="image" class="w-4 h-4"></i></div>
+        <div class="h-16 bg-off rounded-sm flex items-center justify-center text-ink/20"><i data-lucide="image" class="w-4 h-4"></i></div>
+      </div>
+    `;
+    lucide.createIcons();
+    openModal('event-modal');
+  }
+
+  function setupEventFilters() {
+    document.querySelectorAll('.club-filter').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.club-filter').forEach(b => b.classList.remove('active-filter'));
+        btn.classList.add('active-filter');
+        activeClubFilter = btn.dataset.club;
+        renderEvents();
+      });
+    });
+    document.querySelectorAll('.status-filter').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.status-filter').forEach(b => b.classList.remove('active-filter'));
+        btn.classList.add('active-filter');
+        activeStatusFilter = btn.dataset.status;
+        renderEvents();
+      });
+    });
+  }
+
+  /* ---------- RENDER: RULES ---------- */
+
+  function renderRules() {
+    const wrap = document.getElementById('rules-list');
+    wrap.innerHTML = rules.map((r, i) => `
+      <div class="rule-item py-4">
+        <button class="rule-toggle w-full flex items-center justify-between gap-4 text-left">
+          <span class="flex items-center gap-4">
+            <span class="text-gold-dim font-display font-semibold text-sm w-6">${String(i + 1).padStart(2, '0')}</span>
+            <span class="font-medium text-sm sm:text-base">${r}</span>
+          </span>
+          <i data-lucide="chevron-down" class="rule-chevron w-4 h-4 text-ink/40 shrink-0"></i>
+        </button>
+        <div class="rule-content">
+          <p class="text-ink/55 text-sm pl-10 pt-3 pr-8">This is a standard expectation for every member and office bearer, applied consistently across all three clubs and the Association.</p>
+        </div>
+      </div>
+    `).join('');
+
+    document.querySelectorAll('.rule-toggle').forEach(btn => {
+      btn.addEventListener('click', () => btn.closest('.rule-item').classList.toggle('open'));
+    });
+    lucide.createIcons();
+  }
+
+  document.addEventListener("click", (event) => {
+    const profileTrigger = event.target.closest("[data-profile-id]");
+    if (!profileTrigger) return;
+    event.preventDefault();
+    openProfileModal(profileTrigger.dataset.profileId);
+  });
+
+  /* ---------- MODALS ---------- */
+
+  let lastFocusedEl = null;
+
+  function openModal(id) {
+    lastFocusedEl = document.activeElement;
+    const modal = document.getElementById(id);
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    requestAnimationFrame(() => modal.querySelector('.modal-panel').classList.add('open'));
+    document.body.style.overflow = 'hidden';
+    const closeBtn = modal.querySelector('[data-close-modal]');
+    if (closeBtn) closeBtn.focus();
+  }
+
+  function closeModal(modal) {
+    modal.querySelector('.modal-panel').classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }, 250);
+    if (lastFocusedEl) lastFocusedEl.focus();
+  }
+
+  document.querySelectorAll('[data-close-modal]').forEach(el => {
+    el.addEventListener('click', () => closeModal(el.closest('[id$="-modal"]')));
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    ['profile-modal', 'club-modal', 'event-modal'].forEach(id => {
+      const modal = document.getElementById(id);
+      if (!modal.classList.contains('hidden')) closeModal(modal);
+    });
+  });
+
+  /* ---------- NAVIGATION ---------- */
+
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('elevated', window.scrollY > 24);
+    toggleBackToTop();
+  });
+
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('menu-icon-open');
+  const iconClose = document.getElementById('menu-icon-close');
+
+  menuBtn.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', String(isOpen));
+    iconOpen.classList.toggle('hidden', isOpen);
+    iconClose.classList.toggle('hidden', !isOpen);
+  });
+
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      iconOpen.classList.remove('hidden');
+      iconClose.classList.add('hidden');
+    });
+  });
+
+  // active section highlighting
+  const sections = ['home', 'association', 'clubs', 'leadership', 'activities', 'membership', 'rules', 'contact'];
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      navLinks.forEach(l => l.classList.toggle('active', l.dataset.section === entry.target.id));
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) sectionObserver.observe(el);
+  });
+
+  /* ---------- BACK TO TOP ---------- */
+
+  const backToTop = document.getElementById('back-to-top');
+  function toggleBackToTop() {
+    const show = window.scrollY > 500;
+    backToTop.style.opacity = show ? '1' : '0';
+    backToTop.style.transform = show ? 'translateY(0)' : 'translateY(12px)';
+    backToTop.style.pointerEvents = show ? 'auto' : 'none';
+  }
+  backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  /* ---------- SCROLL REVEAL ---------- */
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  function observeReveals() {
+    document.querySelectorAll('.reveal, .reveal-scale').forEach(el => revealObserver.observe(el));
+  }
+
+  /* ---------- COUNTERS ---------- */
+
+  function animateCounters() {
+    document.querySelectorAll('[data-counter]').forEach(el => {
+      const target = Number(el.dataset.counter);
+      let current = 0;
+      const step = Math.max(1, Math.ceil(target / 30));
+      const tick = () => {
+        current = Math.min(target, current + step);
+        el.textContent = current;
+        if (current < target) requestAnimationFrame(tick);
+      };
+      tick();
+    });
+  }
+
+  /* ---------- TIMELINE ACTIVATION ---------- */
+
+  function setupTimeline() {
+    const steps = document.querySelectorAll('.timeline-step');
+    const progressBar = document.getElementById('timeline-progress');
+    const timelineObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        steps.forEach((s, i) => {
+          setTimeout(() => {
+            s.classList.add('active');
+            if (progressBar) progressBar.style.setProperty('--progress', `${((i + 1) / steps.length) * 100}%`);
+          }, i * 220);
+        });
+        timelineObserver.disconnect();
+      });
+    }, { threshold: 0.4 });
+    const timelineEl = document.getElementById('timeline');
+    if (timelineEl) timelineObserver.observe(timelineEl);
+  }
+
+  /* ---------- INIT ---------- */
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  renderClubCards();
+  renderLeadershipProfiles();
+  renderEvents();
+  renderRules();
+  setupEventFilters();
+  setupTimeline();
+  observeReveals();
+  animateCounters();
+  lucide.createIcons();
+
+  // filter pill base styling (applied via JS to keep Tailwind classes minimal in markup)
+  document.querySelectorAll('.filter-pill').forEach(p => {
+    p.classList.add('border-ink/15', 'text-ink/55');
+  });
+  const style = document.createElement('style');
+  style.textContent = `.filter-pill.active-filter { background-color:#0A0E1A; color:#FAF8F3; border-color:#0A0E1A; }`;
+  document.head.appendChild(style);
+
+})();
+</script>
+</body>
+</html>
